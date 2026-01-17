@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+ #frontend:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: inventory_backend
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: admin
+      DB_PASSWORD: adminpassword
+      DB_NAME: inventory_db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: inventory_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: inventory_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:
