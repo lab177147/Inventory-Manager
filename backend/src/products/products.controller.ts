@@ -16,6 +16,16 @@ export class ProductsController {
     return this.productsService.findAll();
   }
 
+  @Get('search')
+  search(@Query('title') title: string): Promise<Product[]> {
+    return this.productsService.search(title);
+  }
+
+  @Get('latest')
+  latest(): Promise<Product[]> {
+    return this.productsService.latest();
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number): Promise<Product> {
     return this.productsService.findOne(id);
@@ -31,13 +41,4 @@ export class ProductsController {
     return this.productsService.update(id, updateData);
   }
 
-  @Get('search')
-  search(@Query('query') query: string): Promise<Product[]> {
-    return this.productsService.search(query);
-  }
-
-  @Get('latest')
-  latest(): Promise<Product[]> {
-    return this.productsService.latest();
-  }
 }
