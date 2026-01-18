@@ -13,17 +13,33 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); 
+  const ITEMS_PER_PAGE = 5; 
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(API_URL);
-      setProducts(response.data);
+      setLoading(true);
+      const response = await axios.get(API_URL, {
+        params: {
+          page: page,
+          limit: ITEMS_PER_PAGE 
+        }
+      });
+
+      if (response.data.data) {
+        setProducts(response.data.data);
+        const totalItems = response.data.total;
+        setTotalPages(Math.ceil(totalItems / ITEMS_PER_PAGE));
+      } else {
+        setProducts(response.data);
+      }
       setLoading(false);
     } catch (error) {
       console.error("Data download error:", error);
       setLoading(false);
     }
   };
+
 
   const handleSearch = async (e) => {
     const term = e.target.value;
@@ -62,11 +78,30 @@ function App() {
     return date.toISOString().slice(0, 16).replace('T', ' ');
   };
 
+  const getPaginationGroup = () => {
+    let start = Math.max(1, page - 2);
+    let end = Math.min(totalPages, page + 2);
+
+    if (end - start < 4) {
+        if (start === 1) {
+            end = Math.min(5, totalPages);
+        } else {
+            start = Math.max(1, totalPages - 4);
+        }
+    }
+
+    const pages = [];
+    for (let i = start; i <= end; i++) {
+        pages.push(i);
+    }
+    return pages;
+  };
+
   return (
     <div className="container">
       <h1 className="title">Inventory Manager</h1>
 
-      <div className="toolbar">
+<div className="toolbar">
         <div className="search-wrapper">
           <Search size={20} className="search-icon" />
           <input
@@ -126,19 +161,35 @@ function App() {
         >
           &larr; Previous
         </button>
-        
-        <button className={`page-num ${page === 1 ? 'active' : ''}`} onClick={() => setPage(1)}>1</button>
-        <button className={`page-num ${page === 2 ? 'active' : ''}`} onClick={() => setPage(2)}>2</button>
-        <button className={`page-num ${page === 3 ? 'active' : ''}`} onClick={() => setPage(3)}>3</button>
-        
-        <span className="dots">...</span>
-        
-        <button className="page-num" onClick={() => setPage(67)}>67</button>
-        <button className="page-num" onClick={() => setPage(68)}>68</button>
+
+        {getPaginationGroup()[0] > 1 && (
+          <>
+            <button className="page-num" onClick={() => setPage(1)}>1</button>
+            {getPaginationGroup()[0] > 2 && <span className="dots">...</span>}
+          </>
+        )}
+
+        {getPaginationGroup().map((pageNum) => (
+          <button 
+            key={pageNum}
+            className={`page-num ${page === pageNum ? 'active' : ''}`} 
+            onClick={() => setPage(pageNum)}
+          >
+            {pageNum}
+          </button>
+        ))}
+
+        {getPaginationGroup()[getPaginationGroup().length - 1] < totalPages && (
+          <>
+            {getPaginationGroup()[getPaginationGroup().length - 1] < totalPages - 1 && <span className="dots">...</span>}
+            <button className="page-num" onClick={() => setPage(totalPages)}>{totalPages}</button>
+          </>
+        )}
 
         <button 
           className="page-nav" 
-          onClick={() => setPage(p => p + 1)}
+          disabled={page === totalPages}
+          onClick={() => setPage(p => Math.min(totalPages, p + 1))}
         >
           Next &rarr;
         </button>
