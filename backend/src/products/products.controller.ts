@@ -12,8 +12,11 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(): Promise<Product[]> {
-    return this.productsService.findAll();
+  findAll(
+    @Query('page', ParseIntPipe) page = 1,
+    @Query('limit', ParseIntPipe) limit = 10,
+  ) {
+    return this.productsService.findAllPaginated(page, limit);
   }
 
   @Get('search')
@@ -37,8 +40,10 @@ export class ProductsController {
   }
 
   @Put(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateData: Partial<Product>): Promise<Product> {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateData: Partial<Product>,
+  ): Promise<Product> {
     return this.productsService.update(id, updateData);
   }
-
 }

@@ -15,9 +15,22 @@ export class ProductsService {
     return this.productRepository.save(product);
   }
 
-  async findAll(): Promise<Product[]> {
-    return this.productRepository.find();
-  }
+  async findAllPaginated(page = 1, limit = 10) {
+  const [data, total] = await this.productRepository.findAndCount({
+    order: { created_at: 'DESC' },
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+
+  return {
+    data,
+    total,
+    page,
+    limit,
+    totalPages: Math.ceil(total / limit),
+  };
+}
+
 
   async findOne(id: number): Promise<Product> {
     const product = await this.productRepository.findOne({ where: { id } });
