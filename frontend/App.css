@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  padding: 20px;
+}
+
+/* --- HEADER --- */
+.title {
+  font-size: 42px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 50px;
+  letter-spacing: -1.5px;
+  color: #1a1a1a;
+  text-transform: uppercase;
+}
+
+/* --- TOOLBAR --- */
+.toolbar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 50px;
+  height: 56px;
+}
+
+.search-wrapper {
+  flex-grow: 1;
+  background-color: #F3E8FF;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  transition: box-shadow 0.2s;
+}
+
+.search-wrapper:focus-within {
+  box-shadow: 0 0 0 2px #E9D5FF;
+}
+
+.search-icon {
+  color: #9CA3AF;
+  margin-right: 12px;
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  outline: none;
+  color: #4B5563;
+}
+
+.search-input::placeholder {
+  color: #9CA3AF;
+}
+
+.add-btn {
+  width: 56px;
+  height: 56px;
+  background-color: #E9D5FF;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6B21A8;
+  transition: background-color 0.2s;
+}
+
+.add-btn:hover {
+  background-color: #D8B4FE;
+}
+
+/* --- TABLE --- */
+.table-container {
+  margin-bottom: 40px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  padding-bottom: 20px;
+  border-bottom: none;
+}
+
+/* Align the last column header to the right */
+th:last-child {
+  text-align: right;
+}
+
+td {
+  padding: 16px 0;
+  font-size: 15px;
+  color: #1F2937;
+  font-weight: 500;
+  border-bottom: 1px solid transparent; 
+}
+
+td.text-light {
+  font-weight: 400;
+}
+
+/* --- ACTIONS (Edit | Delete) --- */
+.actions {
+  text-align: right;
+  font-size: 14px;
+}
+
+.action-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6B7280;
+  font-size: 14px;
+  padding: 0;
+  font-family: inherit;
+  font-weight: 400;
+}
+
+.action-link:hover {
+  text-decoration: underline;
+  color: #000;
+}
+
+.separator {
+  margin: 0 8px;
+  color: #E5E7EB;
+}
+
+/* --- PAGINATION --- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #6B7280;
+  margin-top: 60px;
+}
+
+.page-nav {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9CA3AF;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.2s;
+}
+
+.page-nav:hover:not(:disabled) {
+  color: #111;
+}
+
+.page-num {
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #4B5563;
+  font-weight: 500;
+}
+
+.page-num.active {
+  background-color: #111827;
+  color: #fff;
+}
+
+.page-num:hover:not(.active) {
+  background-color: #F3F4F6;
+}
+
+.dots {
+  color: #9CA3AF;
+  letter-spacing: 2px;
+}
+
+.text-center {
+  text-align: center;
+}
