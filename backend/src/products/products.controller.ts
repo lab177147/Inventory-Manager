@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, ParseIntPipe, Query, Put} from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 
@@ -24,5 +24,20 @@ export class ProductsController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.productsService.remove(id);
+  }
+
+  @Put(':id')
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateData: Partial<Product>): Promise<Product> {
+    return this.productsService.update(id, updateData);
+  }
+
+  @Get('search')
+  search(@Query('query') query: string): Promise<Product[]> {
+    return this.productsService.search(query);
+  }
+
+  @Get('latest')
+  latest(): Promise<Product[]> {
+    return this.productsService.latest();
   }
 }

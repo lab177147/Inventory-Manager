@@ -29,4 +29,25 @@ export class ProductsService {
     const result = await this.productRepository.delete(id);
     if (result.affected === 0) throw new NotFoundException(`Product ${id} not found`);
   }
+
+  async update(id: number, updateData: Partial<Product>): Promise<Product> {
+    const product = await this.findOne(id); // rzuca NotFound jeśli nie ma
+    Object.assign(product, updateData);
+    return this.productRepository.save(product);
+  }
+
+  async search(query: string): Promise<Product[]> {
+    return this.productRepository
+      .createQueryBuilder('product')
+      .where('product.title ILIKE :query', { query: `%${query}%` })
+      .getMany();
+  }
+
+  async latest(limit = 5): Promise<Product[]> {
+    return this.productRepository.find({
+      order: { created_at: 'DESC' },
+      take: limit,
+    });
+  }
+
 }
