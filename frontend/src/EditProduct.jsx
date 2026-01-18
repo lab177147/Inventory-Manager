@@ -49,7 +49,7 @@ function EditProduct() {
         price: parseFloat(formData.price)
       };
       
-      await axios.patch(`${API_URL}/${id}`, payload);
+      await axios.put(`${API_URL}/${id}`, payload);
       navigate('/');
     } catch (error) {
       console.error("Error updating product:", error);
