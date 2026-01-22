@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Search, Plus } from 'lucide-react';
+import { Search, Plus, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
 
 const API_URL = 'http://localhost:3000/products';
 
-function App() {
+function Home() {
   const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
@@ -39,6 +38,22 @@ function App() {
       setLoading(false);
     }
   };
+
+  const handleFetchLatest = async () => {
+    try{
+      setLoading(true);
+      setSearchTerm('');
+      const response = await axios.get(`${API_URL}/latest`);
+      setProducts(response.data);
+
+      setTotalPages(1);
+      setPage(1);
+      setLoading(false);
+    } catch(error){
+      console.error("Error fetching latest: ", error);
+      setLoading(false);
+    }
+  }
 
 
   const handleSearch = async (e) => {
@@ -113,6 +128,9 @@ function App() {
           />
         </div>
 
+        <button className="add-btn" onClick={handleFetchLatest} title="Show Latest">
+          <Clock size={28} strokeWidth={2.5} />
+        </button>
         <button className="add-btn" onClick={() => navigate('/add')}>
           <Plus size={28} strokeWidth={2.5} />
         </button>
@@ -198,4 +216,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
