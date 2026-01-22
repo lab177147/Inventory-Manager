@@ -308,3 +308,15 @@ td.text-light {
 .btn-cancel-dark:hover {
   background-color: #000;
 }
+
+/* --- Style for errors --- */
+.error-text {
+  color: #dc2626; 
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.form-input.input-error {
+  border-color: #dc2626;
+}

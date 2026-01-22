@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Search, Plus, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
 
 const API_URL = 'http://localhost:3000/products';
 
-function App() {
+function Home() {
   const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
@@ -217,4 +216,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
