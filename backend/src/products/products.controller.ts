@@ -1,3 +1,5 @@
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 import { Controller, Get, Post, Delete, Param, Body, ParseIntPipe, Query, Put} from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
@@ -7,7 +9,7 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  create(@Body() productData: Partial<Product>): Promise<Product> {
+  create(@Body() productData: CreateProductDto): Promise<Product> {
     return this.productsService.create(productData);
   }
 
@@ -42,7 +44,7 @@ export class ProductsController {
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateData: Partial<Product>,
+    @Body() updateData: UpdateProductDto,
   ): Promise<Product> {
     return this.productsService.update(id, updateData);
   }
